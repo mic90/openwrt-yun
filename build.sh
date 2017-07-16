@@ -1,11 +1,5 @@
 #!/bin/bash -ex
 
-#CHECK CONFIG FILE
-if [ \! `test` -f '.config' ];
-then
-	cp config.default .config
-fi
-
 #ClEANUP
 make clean
 
@@ -36,19 +30,6 @@ ln -s ../../../feeds/custom/batctl ./package/feeds/custom/batctl
 ln -s ../../../feeds/custom/batman-adv ./package/feeds/custom/batman-adv
 ln -s ../../../feeds/custom/batmand ./package/feeds/custom/batmand
 
-#DELETE CONFIG
 rm -f .config
-
-#BUILD OPTIONS
-if [ "$1" == 'YUN_PACKAGES_ONLY' ];
-then
-	#BUILD ONLY YUN PACKAGES
-	cp config.default .config
-else
-	#BUILD YUN PACKAGES AND OPENWRT PACKAGES
-	cp config.yun.default .config
-fi
-
-make oldconfig
-
+cp yun.config.glibc .config
 make
